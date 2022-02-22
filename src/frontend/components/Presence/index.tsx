@@ -29,6 +29,7 @@ const defaultAnimation: Variants = {
 const Presence = forwardRef<any, PresenceProps>(
   (
     {
+      className,
       children,
       condition,
       presenceProps,
@@ -48,7 +49,7 @@ const Presence = forwardRef<any, PresenceProps>(
             exit={exit}
             animate={animate}
             initial={initial}
-            className='Presence'
+            className={className}
             variants={defaultAnimation}
             transition={defaultTransition}
             {...props}

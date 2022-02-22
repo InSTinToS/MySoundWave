@@ -5,28 +5,27 @@ import styled from 'styled-components'
 
 interface TextProps {
   showClose: boolean
+  fontSize: number
 }
 
-export const CloseWrapper = styled.div`
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-
-  max-width: 24px;
-  max-height: 24px;
-`
-
 export const CloseIcon = styled(OriginalCloseIcon as any)`
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+
+  width: 32px;
+  height: 32px;
+  margin-top: 4px;
+  transform: translateY(-50%);
 `
 
 export const Text = styled(motion.div)<TextProps>`
-  font-size: 18px;
+  transition: width 0.2s ease-in-out;
+  width: calc(100% - 40px);
+
   font-weight: 500;
-  transition: width 0.3s ease-in-out;
-  width: ${({ showClose }) => (showClose ? 'calc(100% - 56px)' : '100%')};
+  font-size: ${({ fontSize }) => fontSize}px;
+  color: ${({ theme }) => theme.colors.quaternary};
 `
 
 export const Container = styled.div`

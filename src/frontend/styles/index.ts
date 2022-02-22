@@ -24,9 +24,14 @@ export default createGlobalStyle`
     text-decoration: none;
     color: ${({ theme }) => theme.colors.secondary};
   }
+  
+  ul {
+    margin: 0;
+    padding: 0;
 
-  li {
-    list-style-type: none;
+    li {
+      list-style-type: none;
+    }
   }
 
   button {

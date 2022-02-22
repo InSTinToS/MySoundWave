@@ -1,22 +1,20 @@
-import { CloseIcon, CloseWrapper, Container, Text } from './styles'
+import { CloseIcon, Container, Text } from './styles'
 import Presence from '../Presence'
 
-import { Transition, Variants } from 'framer-motion'
+import transition from 'frontend/styles/transition'
+
+import { Variants } from 'framer-motion'
 import React, { useState } from 'react'
 
 interface Props {
   name: string
-}
-
-const transition: Transition = {
-  duration: 0.3,
-  type: 'tween'
+  fontSize?: number
 }
 
 const showCloseAnimation: Variants = {
+  exit: { opacity: 0 },
   initial: { opacity: 0 },
-  enter: { opacity: 1 },
-  exit: { opacity: 0 }
+  enter: { opacity: 1 }
 }
 
 const moveTextAnimation: Variants = {
@@ -25,7 +23,7 @@ const moveTextAnimation: Variants = {
   enter: { x: [0, 40] }
 }
 
-const ToCloseButton = ({ name }: Props) => {
+const ToCloseButton = ({ name, fontSize = 16 }: Props) => {
   const [showClose, setShowClose] = useState(false)
 
   return (
@@ -38,13 +36,12 @@ const ToCloseButton = ({ name }: Props) => {
         transition={transition}
         variants={showCloseAnimation}
       >
-        <CloseWrapper>
-          <CloseIcon />
-        </CloseWrapper>
+        <CloseIcon />
       </Presence>
 
       <Text
         initial='initial'
+        fontSize={fontSize}
         showClose={showClose}
         transition={transition}
         variants={moveTextAnimation}
