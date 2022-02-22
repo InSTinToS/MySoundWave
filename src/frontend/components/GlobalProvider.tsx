@@ -1,6 +1,7 @@
-import store from 'frontend/store'
 import theme from 'frontend/styles/theme'
 import GlobalStyle from 'frontend/styles'
+
+import store from 'frontend/store'
 
 import { ReactNode } from 'react'
 import { Provider as ReduxProvider } from 'react-redux'

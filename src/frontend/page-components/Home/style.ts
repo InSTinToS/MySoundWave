@@ -1,46 +1,32 @@
+import OriginalBackgroundLogo from '../../../../public/backgroundLogo.svg'
+import OriginalPlayButton from '../../components/PlayButton'
+
 import styled from 'styled-components'
 
-const Style = styled.main`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+export const PlayButton = styled(OriginalPlayButton)`
+  position: absolute;
+  right: 48px;
+  bottom: 48px;
+`
 
+export const BackgroundLogo = styled(OriginalBackgroundLogo)`
+  width: min(40%, 517px);
+`
+
+export const Container = styled.main`
   width: 100vw;
   height: 100vh;
 
-  background: url('/bg.jpg') no-repeat center;
-  background-size: cover;
+  background-color: ${({ theme }) => theme.colors.secondary};
 
-  > div {
+  section {
+    position: relative;
+
     display: flex;
-    flex-direction: column;
-
     align-items: center;
     justify-content: center;
 
-    padding: 3rem;
-    border-radius: 1rem;
-
-    background-color: ${({ theme }) => theme.colors.primary};
-
-    h1,
-    h2 {
-      font-size: ${({ theme }) => theme.fonts.sizes.md};
-    }
-
-    * + * {
-      margin-top: 16px;
-    }
-
-    img {
-      border-radius: 50%;
-      width: 100px;
-
-      & + img {
-        margin-left: 24px;
-      }
-    }
+    width: 100%;
+    height: 100%;
   }
 `
-
-export default Style

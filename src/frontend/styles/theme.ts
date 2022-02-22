@@ -1,8 +1,11 @@
 const theme = {
   colors: {
     red: '#f00',
-    primary: '#8257e6',
-    secondary: '#fcfcfc',
+    primary: '#F552B8',
+    secondary: '#27194C',
+    tertiary: '#25CBFF',
+    quaternary: '#fcfcfc',
+    quinary: '#211443',
     background: '#121214'
   },
   sizes: {
@@ -12,7 +15,8 @@ const theme = {
     '4': '24px',
     '5': '48px',
     '6': '64px',
-    '7': '128px'
+    '7': '72px',
+    '8': '128px'
   },
   fonts: {
     sizes: {
