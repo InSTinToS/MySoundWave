@@ -2,6 +2,7 @@ import OriginalDragIcon from '../../../../public/drag.svg'
 import OriginalUploadIcon from '../../../../public/upload.svg'
 import Presence from '../Presence'
 
+import { Reorder } from 'framer-motion'
 import styled from 'styled-components'
 
 export const Search = styled.form`
@@ -24,8 +25,9 @@ export const Search = styled.form`
 
     &,
     &::placeholder {
-      color: ${({ theme }) => theme.colors.quaternary};
       font-weight: 500;
+
+      color: ${({ theme }) => theme.colors.quaternary};
     }
   }
 `
@@ -45,7 +47,7 @@ export const Header = styled.div`
   }
 `
 
-export const Playlist = styled.ul`
+export const Playlist = styled(Reorder.Group)`
   padding: 24px;
   padding-top: 0px;
 
@@ -54,7 +56,7 @@ export const Playlist = styled.ul`
   }
 `
 
-export const PlaylistItem = styled.li`
+export const PlaylistItem = styled(Reorder.Item)`
   display: flex;
   align-items: center;
   justify-content: space-between;

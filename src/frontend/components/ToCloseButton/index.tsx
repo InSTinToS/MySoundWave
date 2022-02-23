@@ -4,11 +4,12 @@ import Presence from '../Presence'
 import transition from 'frontend/styles/transition'
 
 import { Variants } from 'framer-motion'
-import React, { useState } from 'react'
+import React, { SyntheticEvent, useState } from 'react'
 
 interface Props {
-  name: string
+  title: string
   fontSize?: number
+  onCloseClick?: (event: SyntheticEvent) => void
 }
 
 const showCloseAnimation: Variants = {
@@ -23,7 +24,7 @@ const moveTextAnimation: Variants = {
   enter: { x: [0, 40] }
 }
 
-const ToCloseButton = ({ name, fontSize = 16 }: Props) => {
+const ToCloseButton = ({ title, fontSize = 16, onCloseClick }: Props) => {
   const [showClose, setShowClose] = useState(false)
 
   return (
@@ -36,7 +37,9 @@ const ToCloseButton = ({ name, fontSize = 16 }: Props) => {
         transition={transition}
         variants={showCloseAnimation}
       >
-        <CloseIcon />
+        <button type='button' onClick={onCloseClick}>
+          <CloseIcon />
+        </button>
       </Presence>
 
       <Text
@@ -47,7 +50,7 @@ const ToCloseButton = ({ name, fontSize = 16 }: Props) => {
         variants={moveTextAnimation}
         animate={showClose ? 'enter' : 'exit'}
       >
-        {name}
+        {title}
       </Text>
     </Container>
   )
