@@ -1,48 +1,25 @@
+import ToCloseButton from '../ToCloseButton'
 import {
   Container,
   Content,
   DragIcon,
-  Footer,
   Header,
   Playlist,
   PlaylistItem,
+  Search,
   UploadIcon
 } from './styles'
-import ToCloseButton from '../ToCloseButton'
-import Presence from '../Presence'
 
 import transition from 'frontend/styles/transition'
 
 import { Variants } from 'framer-motion'
-import React, { HTMLProps } from 'react'
-import { v4 as uuid } from 'uuid'
+import React, { HTMLProps, SyntheticEvent } from 'react'
 
 interface Props extends HTMLProps<HTMLDivElement> {
   open: boolean
+  items: { name: string; id: string }[]
+  search: (valueToSearch: string) => Promise<void>
 }
-
-const fakeSidebarItems = [
-  {
-    id: uuid(),
-    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
-  },
-  {
-    id: uuid(),
-    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
-  },
-  {
-    id: uuid(),
-    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
-  },
-  {
-    id: uuid(),
-    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
-  },
-  {
-    id: uuid(),
-    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
-  }
-]
 
 const showSidebarAnimation: Variants = {
   initial: { x: 400, opacity: 0 },
@@ -50,42 +27,43 @@ const showSidebarAnimation: Variants = {
   exit: { x: 400, opacity: 0 }
 }
 
-const Sidebar = ({ className, open }: Props) => {
+const Sidebar = ({ className, open, search, items }: Props) => {
+  const onSearchSubmit = (event: SyntheticEvent) => {
+    event.preventDefault()
+    const { value } = event.target[0]
+    search(value)
+  }
+
   return (
     <Container className={className}>
-      <Presence
+      <Content
         condition={open}
         transition={transition}
         variants={showSidebarAnimation}
       >
-        <Content>
-          <Header>
-            <ToCloseButton name={fakeSidebarItems[0].name} fontSize={19} />
+        <Header>
+          <ToCloseButton name={items[0].name} fontSize={19} />
 
-            <input type='range' />
-          </Header>
+          <input type='range' />
+        </Header>
 
-          <Playlist>
-            {fakeSidebarItems.map(({ name, id }) => (
-              <PlaylistItem key={id}>
-                <ToCloseButton name={name} />
+        <Playlist>
+          {items.map(({ name, id }) => (
+            <PlaylistItem key={id}>
+              <ToCloseButton name={name} />
+              <DragIcon />
+            </PlaylistItem>
+          ))}
+        </Playlist>
 
-                <DragIcon />
-              </PlaylistItem>
-            ))}
-          </Playlist>
-        </Content>
-      </Presence>
+        <Search onSubmit={onSearchSubmit}>
+          <input name='search' type='text' placeholder='Pesquisar no youtube' />
 
-      <Footer isOpen={open}>
-        <Presence
-          condition={open}
-          transition={transition}
-          variants={showSidebarAnimation}
-        >
-          <UploadIcon />
-        </Presence>
-      </Footer>
+          <button>
+            <UploadIcon />
+          </button>
+        </Search>
+      </Content>
     </Container>
   )
 }

@@ -2,11 +2,8 @@ import OriginalPlayIcon from '../../../../public/play.svg'
 
 import styled from 'styled-components'
 
-export const PlayIcon = styled(OriginalPlayIcon)`
+export const PlayIcon = styled(OriginalPlayIcon as any)`
   fill: ${({ theme }) => theme.colors.tertiary};
 `
 
-export const Container = styled.button`
-  height: 42px;
-  width: 35px;
-`
+export const Container = styled.button``

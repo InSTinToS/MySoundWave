@@ -1,31 +1,40 @@
 import OriginalDragIcon from '../../../../public/drag.svg'
 import OriginalUploadIcon from '../../../../public/upload.svg'
+import Presence from '../Presence'
 
 import styled from 'styled-components'
 
-interface FooterProps {
-  isOpen: boolean
-}
-
-export const UploadIcon = styled(OriginalUploadIcon as any)`
-  transform: translateY(8px);
-  height: 42px;
-`
-
-export const DragIcon = styled(OriginalDragIcon as any)``
-
-export const Footer = styled.div<FooterProps>`
+export const Search = styled.form`
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: 0;
 
   display: flex;
-  align-items: center;
 
-  padding: 24px;
-  transition: width 0.3s ease-in-out;
-  width: ${({ isOpen }) => (isOpen ? '400px' : '95px')};
+  width: 100%;
+  height: 42px;
+  padding: 0 24px;
+
+  input {
+    flex: 1;
+    height: 100%;
+
+    border: none;
+    background-color: transparent;
+
+    &,
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.quaternary};
+      font-weight: 500;
+    }
+  }
 `
+
+export const UploadIcon = styled(OriginalUploadIcon as any)`
+  height: 24px;
+`
+
+export const DragIcon = styled(OriginalDragIcon as any)``
 
 export const Header = styled.div`
   padding: 30px 24px;
@@ -53,14 +62,16 @@ export const PlaylistItem = styled.li`
   height: 48px;
 `
 
-export const Content = styled.aside`
+export const Content = styled(Presence)`
+  position: relative;
+
   width: 400px;
   height: calc(100vh - 95px);
 
   background-color: ${({ theme }) => theme.colors.quinary}; ;
 `
 
-export const Container = styled.div`
+export const Container = styled.aside`
   position: fixed;
   top: 0;
   right: 0;

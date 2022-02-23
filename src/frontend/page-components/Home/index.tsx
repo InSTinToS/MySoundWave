@@ -3,16 +3,46 @@ import Head from 'next/head'
 import {
   BackgroundLogo,
   Container,
+  Footer,
   MenuButton,
   PlayButton,
   YoutubeVideo
-} from './style'
+} from './styles'
+
+import transition from 'frontend/styles/transition'
+
+import youtube from 'frontend/services/youtube'
 
 import Sidebar from 'frontend/components/Sidebar'
 
-import { useEffect, useState } from 'react'
+import { Variants } from 'framer-motion'
+import { useState } from 'react'
 import { Options } from 'react-youtube'
+import { v4 as uuid } from 'uuid'
 import { YouTubePlayer } from 'youtube-player/dist/types'
+
+const fakeSidebarItems = [
+  {
+    id: uuid(),
+    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
+  },
+  {
+    id: uuid(),
+    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
+  },
+  {
+    id: uuid(),
+    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
+  },
+  {
+    id: uuid(),
+    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
+  },
+  {
+    id: uuid(),
+    name: 'Hallasen & Ludwiig - eoh ft. Julia Hallåsen'
+  }
+]
 
 const youtubeOptions: Options = {
   playerVars: {
@@ -27,23 +57,28 @@ const youtubeOptions: Options = {
   }
 }
 
+const footerAnimation: Variants = {
+  open: { width: 400 },
+  closed: { width: 'auto' }
+}
+
 const Home = () => {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false)
   const [videoId, setVideoId] = useState('')
 
   const [video, setVideo] = useState<{ target: YouTubePlayer; state: number }>()
 
-  useEffect(() => {
-    ;(async () => {
-      // const res = await youtube('/search', {
-      //   params: { part: 'snippet', q: 'future house', autoPlay: 1 }
-      // })
+  const findVideoBySearch = async (search: string) => {
+    const res = await youtube('/search', {
+      params: { part: 'snippet', q: search, autoPlay: 1 }
+    })
 
-      // const videoId = res.data.items[1].id.videoId
+    const videoId = res.data.items.find(
+      (item: any) => item.id.kind === 'youtube#video'
+    ).id.videoId
 
-      setVideoId(`u4Yf9Ia1e6Q`)
-    })()
-  }, [])
+    setVideoId(videoId)
+  }
 
   const onYoutubeChangeState = ({ target, data }) => {
     setVideo({ target, state: data })
@@ -59,10 +94,6 @@ const Home = () => {
         <section>
           <BackgroundLogo />
 
-          <PlayButton video={video} />
-
-          <div>test</div>
-
           <YoutubeVideo
             videoId={videoId}
             opts={youtubeOptions}
@@ -70,14 +101,27 @@ const Home = () => {
           />
         </section>
 
-        <Sidebar open={sidebarIsOpen} />
-
-        <MenuButton
-          to={0}
-          from={-180}
-          condition={sidebarIsOpen}
-          onClick={() => setSidebarIsOpen(prev => !prev)}
+        <Sidebar
+          open={sidebarIsOpen}
+          items={fakeSidebarItems}
+          search={findVideoBySearch}
         />
+
+        <Footer
+          initial='closed'
+          transition={transition}
+          variants={footerAnimation}
+          animate={sidebarIsOpen ? 'open' : 'closed'}
+        >
+          <PlayButton video={video} sidebarIsOpen={sidebarIsOpen} />
+
+          <MenuButton
+            to={0}
+            from={-180}
+            condition={sidebarIsOpen}
+            onClick={() => setSidebarIsOpen(prev => !prev)}
+          />
+        </Footer>
       </Container>
     </>
   )
