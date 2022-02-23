@@ -4,6 +4,7 @@ import OriginalUploadIcon from '../../../../public/upload.svg'
 
 import OriginalMenuButton from 'frontend/components/MenuButton'
 
+import YouTube from 'react-youtube'
 import styled from 'styled-components'
 
 interface ContainerProps {
@@ -47,6 +48,10 @@ export const PlayButton = styled(OriginalPlayButton)`
 
 export const BackgroundLogo = styled(OriginalBackgroundLogo as any)`
   width: min(40%, 517px);
+`
+
+export const YoutubeVideo = styled(YouTube)`
+  display: none;
 `
 
 export const Container = styled.main<ContainerProps>`

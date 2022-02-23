@@ -25,8 +25,6 @@ export const Footer = styled.div<FooterProps>`
   padding: 24px;
   transition: width 0.3s ease-in-out;
   width: ${({ isOpen }) => (isOpen ? '400px' : '95px')};
-
-  background-color: ${({ theme }) => theme.colors.secondary};
 `
 
 export const Header = styled.div`
