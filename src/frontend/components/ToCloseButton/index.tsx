@@ -1,57 +1,55 @@
-import { CloseIcon, Container, Text } from './styles'
+import { Children, CloseIcon, Container } from './styles'
 import Presence from '../Presence'
 
 import transition from 'frontend/styles/transition'
 
 import { Variants } from 'framer-motion'
-import React, { SyntheticEvent, useState } from 'react'
+import React, { HTMLProps, SyntheticEvent, useState } from 'react'
 
-interface Props {
-  title: string
-  fontSize?: number
+interface Props extends HTMLProps<HTMLDivElement> {
   onCloseClick?: (event: SyntheticEvent) => void
 }
 
 const showCloseAnimation: Variants = {
   exit: { opacity: 0 },
-  initial: { opacity: 0 },
-  enter: { opacity: 1 }
+  enter: { opacity: 1 },
+  initial: { opacity: 0 }
 }
 
-const moveTextAnimation: Variants = {
+const moveChildrenAnimation: Variants = {
   initial: { x: 0 },
   exit: { x: [40, 0] },
   enter: { x: [0, 40] }
 }
 
-const ToCloseButton = ({ title, fontSize = 16, onCloseClick }: Props) => {
+const ToCloseButton = ({ children, className, onCloseClick }: Props) => {
   const [showClose, setShowClose] = useState(false)
 
   return (
     <Container
+      className={className}
       onMouseEnter={() => setShowClose(true)}
       onMouseLeave={() => setShowClose(false)}
     >
       <Presence
+        role='button'
         condition={showClose}
+        onClick={onCloseClick}
         transition={transition}
         variants={showCloseAnimation}
       >
-        <button type='button' onClick={onCloseClick}>
-          <CloseIcon />
-        </button>
+        <CloseIcon />
       </Presence>
 
-      <Text
+      <Children
         initial='initial'
-        fontSize={fontSize}
-        showClose={showClose}
+        isShowing={showClose}
         transition={transition}
-        variants={moveTextAnimation}
+        variants={moveChildrenAnimation}
         animate={showClose ? 'enter' : 'exit'}
       >
-        {title}
-      </Text>
+        {children}
+      </Children>
     </Container>
   )
 }

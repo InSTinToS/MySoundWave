@@ -6,6 +6,7 @@ const theme = {
     tertiary: '#25CBFF',
     quaternary: '#fcfcfc',
     quinary: '#211443',
+    senary: '#412C78',
     background: '#121214'
   },
   sizes: {

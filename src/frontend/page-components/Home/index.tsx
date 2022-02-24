@@ -11,8 +11,6 @@ import {
 
 import transition from 'frontend/styles/transition'
 
-import youtube from 'frontend/services/youtube'
-
 import Sidebar, { RefProps as SidebarRefProps } from 'frontend/components/Sidebar'
 
 import { Variants } from 'framer-motion'
@@ -35,39 +33,26 @@ const youtubeOptions: Options = {
 
 const footerAnimation: Variants = {
   open: { width: 400 },
-  closed: { width: 'auto' }
+  closed: { width: 126 }
 }
 
 const Home = () => {
   const sidebarRef = useRef<SidebarRefProps>(null)
 
-  const [sidebarIsOpen, setSidebarIsOpen] = useState(false)
   const [videoId, setVideoId] = useState('')
-
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false)
   const [video, setVideo] = useState<{ target: YouTubePlayer; state: number }>()
 
-  const findVideoBySearch = async (search: string) => {
-    const res = await youtube('/search', {
-      params: { part: 'snippet', q: search, autoPlay: 1 }
-    })
-
-    const { id, snippet } = res.data.items.find(
-      (item: any) => item.id.kind === 'youtube#video'
-    )
-
-    console.log(
-      res.data.items.find((item: any) => item.id.kind === 'youtube#video')
-    )
-
-    return {
-      id: id.videoId,
-      title: snippet.title,
-      channelTitle: snippet.channelTitle
-    }
+  const onYoutubeReady = ({ target }) => {
+    setVideo({ target, state: -1 })
   }
 
-  const onYoutubeChangeState = ({ target, data }) => {
-    setVideo({ target, state: data })
+  const onYoutubeChangeState = ({ data }) => {
+    setVideo(prev => ({ target: prev.target, state: data }))
+  }
+
+  const onYoutubeEnd = () => {
+    sidebarRef.current?.playNextVideo()
   }
 
   return (
@@ -82,16 +67,18 @@ const Home = () => {
 
           <YoutubeVideo
             videoId={videoId}
+            onEnd={onYoutubeEnd}
             opts={youtubeOptions}
+            onReady={onYoutubeReady}
             onStateChange={onYoutubeChangeState}
-            onEnd={() => {
-              const nextVideoId = sidebarRef.current.getNextVideoId()
-              nextVideoId && setVideoId(nextVideoId)
-            }}
           />
         </section>
 
-        <Sidebar open={sidebarIsOpen} search={findVideoBySearch} />
+        <Sidebar
+          ref={sidebarRef}
+          open={sidebarIsOpen}
+          setPlayingVideoId={setVideoId}
+        />
 
         <Footer
           initial='closed'

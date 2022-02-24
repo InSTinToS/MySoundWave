@@ -39,14 +39,15 @@ export const Footer = styled(motion.footer)`
 `
 
 export const Container = styled.main<SidebarIsOpenProp>`
+  position: relative;
+
   width: 100vw;
   height: 100vh;
 
+  color: ${({ theme }) => theme.colors.quaternary};
   background-color: ${({ theme }) => theme.colors.secondary};
 
   section {
-    position: relative;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,6 +55,6 @@ export const Container = styled.main<SidebarIsOpenProp>`
     height: 100vh;
     transition: width 0.3s ease-in-out;
     width: ${({ sidebarIsOpen }) =>
-      sidebarIsOpen ? 'calc(100vw - 400px)' : '100vw'};
+      sidebarIsOpen ? 'calc(100% - 400px)' : '100%'};
   }
 `

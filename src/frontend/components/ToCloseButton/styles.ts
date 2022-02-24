@@ -3,9 +3,8 @@ import OriginalCloseIcon from '../../../../public/close.svg'
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
 
-interface TextProps {
-  showClose: boolean
-  fontSize: number
+interface ChildrenProps {
+  isShowing: boolean
 }
 
 export const CloseIcon = styled(OriginalCloseIcon as any)`
@@ -19,13 +18,10 @@ export const CloseIcon = styled(OriginalCloseIcon as any)`
   transform: translateY(-50%);
 `
 
-export const Text = styled(motion.div)<TextProps>`
-  transition: width 0.2s ease-in-out;
-  width: calc(100% - 40px);
-
-  font-weight: 500;
-  font-size: ${({ fontSize }) => fontSize}px;
-  color: ${({ theme }) => theme.colors.quaternary};
+export const Children = styled(motion.div)<ChildrenProps>`
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+  width: ${({ isShowing }) => (isShowing ? 'calc(100% - 40px)' : '100%')};
 `
 
 export const Container = styled.div`
