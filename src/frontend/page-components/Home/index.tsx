@@ -6,15 +6,21 @@ import {
   Footer,
   MenuButton,
   PlayButton,
+  RangeWrapper,
+  SoundControl,
+  SoundIcon,
+  SoundWrapper,
   YoutubeVideo
 } from './styles'
 
 import transition from 'frontend/styles/transition'
 
 import Sidebar, { RefProps as SidebarRefProps } from 'frontend/components/Sidebar'
+import Presence from 'frontend/components/Presence'
 
 import { Variants } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { ChangeEvent, FC, ReactNode, useEffect, useRef, useState } from 'react'
+import { Form } from 'react-bootstrap'
 import { Options } from 'react-youtube'
 import { YouTubePlayer } from 'youtube-player/dist/types'
 
@@ -33,18 +39,39 @@ const youtubeOptions: Options = {
 
 const footerAnimation: Variants = {
   open: { width: 400 },
-  closed: { width: 126 }
+  closed: { width: 'auto' }
 }
 
-const Home = () => {
+const soundControlAnimation: Variants = {
+  initial: { opacity: 0, y: -75 },
+  enter: { opacity: 1, y: -108 },
+  exit: { opacity: 0, y: -75 }
+}
+
+export interface IMyYoutube {
+  state: number
+  target: YouTubePlayer
+}
+
+interface IVolumeConfig {
+  volume: number
+  hovering: boolean
+}
+
+const Home = (): ReactNode => {
   const sidebarRef = useRef<SidebarRefProps>(null)
 
   const [videoId, setVideoId] = useState('')
+  const [video, setVideo] = useState<IMyYoutube>()
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false)
-  const [video, setVideo] = useState<{ target: YouTubePlayer; state: number }>()
+  const [volumeConfig, setVolumeConfig] = useState<IVolumeConfig>({
+    hovering: false,
+    volume: 70
+  })
 
-  const onYoutubeReady = ({ target }) => {
+  const onYoutubeReady = ({ target }: { target: YouTubePlayer }) => {
     setVideo({ target, state: -1 })
+    target.setVolume(70)
   }
 
   const onYoutubeChangeState = ({ data }) => {
@@ -53,6 +80,17 @@ const Home = () => {
 
   const onYoutubeEnd = () => {
     sidebarRef.current?.playNextVideo()
+  }
+
+  const onVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newSoundValue = Number(e.target.value)
+
+    video.target.setVolume(newSoundValue)
+
+    setVolumeConfig(prev => ({
+      ...prev,
+      volume: newSoundValue
+    }))
   }
 
   return (
@@ -86,7 +124,38 @@ const Home = () => {
           variants={footerAnimation}
           animate={sidebarIsOpen ? 'open' : 'closed'}
         >
-          <PlayButton video={video} sidebarIsOpen={sidebarIsOpen} />
+          <div>
+            <PlayButton video={video} sidebarIsOpen={sidebarIsOpen} />
+
+            <SoundWrapper>
+              <SoundControl
+                onMouseEnter={() => {
+                  setVolumeConfig(prev => ({
+                    ...prev,
+                    hovering: true
+                  }))
+                }}
+                onMouseLeave={() =>
+                  setVolumeConfig(prev => ({ ...prev, hovering: false }))
+                }
+              >
+                <Presence
+                  transition={transition}
+                  variants={soundControlAnimation}
+                  condition={volumeConfig.hovering}
+                >
+                  <RangeWrapper>
+                    <Form.Range
+                      value={volumeConfig.volume}
+                      onChange={onVolumeChange}
+                    />
+                  </RangeWrapper>
+                </Presence>
+
+                <SoundIcon />
+              </SoundControl>
+            </SoundWrapper>
+          </div>
 
           <MenuButton
             to={0}

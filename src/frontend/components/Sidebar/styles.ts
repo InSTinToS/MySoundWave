@@ -31,6 +31,7 @@ export const Search = styled.form<SearchProps>`
     &,
     &::placeholder {
       font-weight: 500;
+      opacity: 0.6;
 
       color: ${({ theme }) => theme.colors.quaternary};
     }
@@ -47,12 +48,16 @@ export const Search = styled.form<SearchProps>`
 
 export const UploadIcon = styled(OriginalUploadIcon as any)`
   height: 24px;
+  margin-left: 16px;
+
+  fill: ${({ theme }) => theme.colors.tertiary};
 `
 
 export const DragIcon = styled(OriginalDragIcon as any)`
+  width: 24px;
   margin-left: 16px;
 
-  cursor: grab;
+  fill: ${({ theme }) => theme.colors.senary};
 `
 
 export const VideoTitle = styled.div`
@@ -65,7 +70,6 @@ export const VideoTitle = styled.div`
   span {
     overflow: hidden;
 
-    user-select: all;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
@@ -85,6 +89,8 @@ export const PlaylistItem = styled(Reorder.Item)<PlaylistItemProps>`
   justify-content: space-between;
 
   height: 48px;
+
+  cursor: grab;
 
   ${({ isPlaying, theme }) =>
     isPlaying &&
@@ -106,6 +112,7 @@ export const Playlist = styled(Reorder.Group)`
 
   &::-webkit-scrollbar-thumb {
     border-radius: 16px;
+
     background-color: ${({ theme }) => theme.colors.tertiary};
     border: 4px solid ${({ theme }) => theme.colors.quinary};
   }
@@ -117,11 +124,6 @@ export const Playlist = styled(Reorder.Group)`
 
 export const Header = styled.div`
   padding: 30px 24px;
-
-  input {
-    width: 100%;
-    margin-top: 16px;
-  }
 
   ${ToCloseButton} {
     height: 48px;

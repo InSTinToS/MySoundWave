@@ -12,10 +12,11 @@ export const CloseIcon = styled(OriginalCloseIcon as any)`
   top: 50%;
   left: 0;
 
-  width: 32px;
-  height: 32px;
+  width: 24px;
   margin-top: 4px;
   transform: translateY(-50%);
+
+  fill: ${({ theme }) => theme.colors.primary};
 `
 
 export const Children = styled(motion.div)<ChildrenProps>`

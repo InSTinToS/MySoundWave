@@ -1,6 +1,27 @@
 {
   "extends": "next/core-web-vitals",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["*.js", "styles.ts"],
   "rules": {
-    "react/display-name": "off"
-  }
+    "react/display-name": "off",
+    "@typescript-eslint/ban-types": ["error"],
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-misused-new": "error",
+    "@typescript-eslint/no-for-in-array": "error",
+    "@typescript-eslint/no-var-requires": "error",
+    "@typescript-eslint/no-misused-promises": "error",
+    "@typescript-eslint/no-non-null-assertion": "warn",
+    "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+    "@typescript-eslint/no-unnecessary-type-constraint": "warn",
+    "@typescript-eslint/explicit-function-return-type": ["warn"],
+    "@typescript-eslint/array-type": ["error", { "default": "array" }],
+    "@typescript-eslint/consistent-type-definitions": ["warn", "interface"]
+  },
+  "overrides": [
+    {
+      "files": ["**/styles.ts"],
+      "rules": { "@typescript-eslint/explicit-function-return-type": ["off"] }
+    }
+  ]
 }

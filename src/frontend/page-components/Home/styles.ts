@@ -1,4 +1,5 @@
 import OriginalBackgroundLogo from '../../../../public/backgroundLogo.svg'
+import OriginalSoundIcon from '../../../../public/sound.svg'
 import OriginalPlayButton from '../../components/PlayButton'
 
 import OriginalMenuButton from 'frontend/components/MenuButton'
@@ -11,18 +12,59 @@ interface SidebarIsOpenProp {
   sidebarIsOpen: boolean
 }
 
-export const MenuButton = styled(OriginalMenuButton)``
+export const RangeWrapper = styled.div`
+  position: absolute;
+  left: 0px;
 
-export const PlayButton = styled(OriginalPlayButton)<SidebarIsOpenProp>`
+  display: flex;
+  align-items: center;
+
+  width: 100px;
+  height: 30px;
+  transform: rotate(-90deg) translate(calc(15px - 50%), calc(-50px + 50%));
+`
+
+export const SoundIcon = styled(OriginalSoundIcon as any)`
+  position: absolute;
+  bottom: 0px;
+
+  height: 26px;
   margin-right: 24px;
+
+  fill: ${({ theme }) => theme.colors.primary};
+`
+
+export const SoundControl = styled(motion.div)`
+  position: absolute;
+
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+`
+
+export const SoundWrapper = styled.div`
+  position: relative;
+
+  width: 30px;
+  height: 30px;
 `
 
 export const BackgroundLogo = styled(OriginalBackgroundLogo as any)`
   width: min(40%, 517px);
+
+  fill: ${({ theme }) => theme.colors.primary};
 `
 
 export const YoutubeVideo = styled(YouTube)`
   display: none;
+`
+
+export const MenuButton = styled(OriginalMenuButton)`
+  margin: 0 24px;
+`
+
+export const PlayButton = styled(OriginalPlayButton)<SidebarIsOpenProp>`
+  margin-right: 24px;
 `
 
 export const Footer = styled(motion.footer)`
@@ -35,7 +77,12 @@ export const Footer = styled(motion.footer)`
   justify-content: space-between;
 
   height: 95px;
-  padding: 0 24px;
+
+  > div {
+    display: flex;
+
+    margin-left: 24px;
+  }
 `
 
 export const Container = styled.main<SidebarIsOpenProp>`
@@ -43,6 +90,7 @@ export const Container = styled.main<SidebarIsOpenProp>`
 
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 
   color: ${({ theme }) => theme.colors.quaternary};
   background-color: ${({ theme }) => theme.colors.secondary};

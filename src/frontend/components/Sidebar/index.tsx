@@ -24,6 +24,7 @@ import React, {
   useImperativeHandle,
   useState
 } from 'react'
+import Form from 'react-bootstrap/Form'
 import { v4 } from 'uuid'
 
 interface IVideo {
@@ -44,44 +45,19 @@ interface Props extends HTMLProps<HTMLDivElement> {
 }
 
 const showSidebarAnimation: Variants = {
-  initial: { x: 400, opacity: 0 },
   enter: { x: 0, opacity: 1 },
-  exit: { x: 400, opacity: 0 }
+  exit: { x: 400, opacity: 0 },
+  initial: { x: 400, opacity: 0 }
 }
 
 const Sidebar = React.forwardRef<RefProps, Props>(
   ({ className, open, setPlayingVideoId }, ref) => {
     const [playingIndex, setPlayingIndex] = useState(0)
-    const [videos, setVideos] = useState<IVideo[]>([
-      {
-        channelTitle: '1asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdas',
-        videoId: '1',
-        title: '1asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdas',
-        id: v4()
-      },
-      {
-        channelTitle: '2',
-        videoId: '2',
-        title:
-          'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-        id: v4()
-      },
-      { channelTitle: '2', videoId: '2', title: '2', id: v4() },
-      { channelTitle: '2', videoId: '2', title: '2', id: v4() },
-      { channelTitle: '2', videoId: '2', title: '2', id: v4() },
-      { channelTitle: '2', videoId: '2', title: '2', id: v4() },
-      { channelTitle: '2', videoId: '2', title: '2', id: v4() },
-      { channelTitle: '2', videoId: '2', title: '2', id: v4() },
-      { channelTitle: '2', videoId: '2', title: '2', id: v4() },
-      { channelTitle: '2', videoId: '2', title: '2', id: v4() },
-      { channelTitle: '2', videoId: '2', title: '2', id: v4() },
-      { channelTitle: '3', videoId: '3', title: '3', id: v4() }
-    ])
+    const [videos, setVideos] = useState<IVideo[]>([])
 
     const removeVideo = (index: number) => {
       const newVideos = videos.map(t => t)
       newVideos.splice(index, 1)
-
       setVideos(newVideos)
     }
 
@@ -148,7 +124,7 @@ const Sidebar = React.forwardRef<RefProps, Props>(
                   <VideoTitle>{videos[playingIndex].title}</VideoTitle>
                 </ToCloseButton>
 
-                <input type='range' />
+                <Form.Range />
               </Header>
 
               <Playlist
@@ -184,7 +160,7 @@ const Sidebar = React.forwardRef<RefProps, Props>(
             <input
               type='text'
               name='search'
-              placeholder='Pesquisar no youtube'
+              placeholder='Adicionar à playlist'
             />
 
             <button>
